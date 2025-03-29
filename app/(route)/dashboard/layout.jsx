@@ -1,6 +1,7 @@
 import React from 'react'
 import SideNavbar from './_components/SideNavbar'
 import DashboardHeader from './_components/DashboardHeader'
+import NextTopLoader from 'nextjs-toploader';
 
 const Dashboardlayout = ({children}) => {
   return (
@@ -9,6 +10,7 @@ const Dashboardlayout = ({children}) => {
             <SideNavbar/>
         </div>
         <div className='md:ml-64'>
+        <NextTopLoader />
             <DashboardHeader/>
         {children}
         </div>
