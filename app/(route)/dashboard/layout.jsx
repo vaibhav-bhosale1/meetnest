@@ -2,6 +2,7 @@ import React from 'react'
 import SideNavbar from './_components/SideNavbar'
 import DashboardHeader from './_components/DashboardHeader'
 import NextTopLoader from 'nextjs-toploader';
+import { Toaster } from "@/components/ui/sonner"
 
 const Dashboardlayout = ({children}) => {
   return (
@@ -11,6 +12,7 @@ const Dashboardlayout = ({children}) => {
         </div>
         <div className='md:ml-64'>
         <NextTopLoader />
+        <Toaster richColors  position="top-center" />
             <DashboardHeader/>
         {children}
         </div>

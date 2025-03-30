@@ -2,7 +2,9 @@ import React from 'react'
 
 const Availability = () => {
   return (
-    <div>Availability</div>
+    <div>
+      
+    </div>
   )
 }
 

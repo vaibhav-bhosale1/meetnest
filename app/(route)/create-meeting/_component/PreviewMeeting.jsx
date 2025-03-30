@@ -64,7 +64,7 @@ const PreviewMeeting = ({formValue}) => {
                 </div>
                 <div className='flex flex-col w-full overflow-auto gap-4 p-5' style={{maxHeight:'440px'}}>
                     {timeSlots?.map((time,index)=>(
-                        <Button className='border-primary text-primary' variant='outline'>{time}</Button>
+                        <Button className='border-primary text-primary' variant='outline' key={index}>{time}</Button>
                     ))}
                 </div>
             
