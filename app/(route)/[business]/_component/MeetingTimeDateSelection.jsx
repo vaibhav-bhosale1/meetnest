@@ -1,16 +1,18 @@
 
-import { Clock, LocateIcon, MapPin } from 'lucide-react'
+import { Calendar1, Clock, Clock10, LocateIcon, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { Calendar } from "@/components/ui/calendar"
 import { format, interval, min } from 'date-fns'
 import { Button } from '@/components/ui/button'
+import TimeDateSelection from './TimeDateSelection'
 
 
 const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
     const [date, setDate] = useState(new Date())
     const [enableTimeSlots,setenableTimeSlots]=useState(false);
     const [timeSlots,setTimeSlots]=useState()
+    const [SelectedTime,setSelectedTime]=useState()
     useEffect(()=>{
         eventInfo?.duration&&createTimeSlot(eventInfo?.duration)
     },[eventInfo])
@@ -43,7 +45,7 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
     
   return (
     <div className='p-2 py-10 shadow-md m-5 border-t-8 my-10
-    mx-10 md:mx-26 lg:mx-56 
+    mx-10 md:mx-26  lg:mx-56
     '
     style={{borderTopColor:eventInfo?.themeColor}}
     >
@@ -60,32 +62,19 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
                 <div className='flex flex-col gap-4 mt-5'>
                     <h2 className='flex gap-2'><Clock/>{eventInfo?.duration} Minute</h2>
                     <h2 className='flex gap-2'><MapPin/>{eventInfo?.locationType} Meeting</h2>
+                    <h2 className='flex gap-2'><Calendar1/>{format(date,'PPP')}</h2>
+                   {SelectedTime&& <h2 className='flex gap-2'><Clock10/>{SelectedTime}</h2>}
                     <Link className='flex gap-2 text-blue-400' href={eventInfo?.locationUrl?eventInfo?.locationUrl:"#"}>{eventInfo?.locationUrl} Meeting</Link>
                 </div>
 
             </div>
-            <div className='md:col-span-2 flex px-7'>
-                <div className='flex flex-col'>
-                    <h2 className='font-bold text-lg'>Select Date and Time</h2>
-                <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={(d)=>handleDateChange(d)}
-                    className="rounded-md border mt-5"
-                    disabled={(date)=>date<=new Date()}
-                />
-
-                </div>
-                <div className='flex flex-col w-full overflow-auto gap-4 p-5' style={{maxHeight:'440px'}}>
-                    {timeSlots?.map((time,index)=>(
-                        <Button className='border-primary text-primary' variant='outline' key={index}
-                        disabled={!enableTimeSlots}
-                        >{time}</Button>
-                    ))}
-                </div>
-            
-
-            </div>
+            <TimeDateSelection 
+            date={date}
+            handleDateChange={handleDateChange}
+            timeSlots={timeSlots}
+            setSelectedTime={setSelectedTime}
+            enableTimeSlots={enableTimeSlots}
+            />
 
         </div>
     </div>
