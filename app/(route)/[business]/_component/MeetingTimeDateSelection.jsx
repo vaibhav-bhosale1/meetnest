@@ -34,7 +34,9 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
         setDate(date);
         const day=format(date,'EEEE')
         if(businessInfo?.daysAvailable?.[day]){
-
+            setenableTimeSlots(true)
+        }else{
+            setenableTimeSlots(false)
         }
 
     }
@@ -68,7 +70,7 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
                 <Calendar
                     mode="single"
                     selected={date}
-                    onSelect={(date)=>handleDateChange(date)}
+                    onSelect={(d)=>handleDateChange(d)}
                     className="rounded-md border mt-5"
                     disabled={(date)=>date<=new Date()}
                 />
@@ -76,7 +78,9 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
                 </div>
                 <div className='flex flex-col w-full overflow-auto gap-4 p-5' style={{maxHeight:'440px'}}>
                     {timeSlots?.map((time,index)=>(
-                        <Button className='border-primary text-primary' variant='outline' key={index}>{time}</Button>
+                        <Button className='border-primary text-primary' variant='outline' key={index}
+                        disabled={!enableTimeSlots}
+                        >{time}</Button>
                     ))}
                 </div>
             
