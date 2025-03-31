@@ -133,7 +133,7 @@ const onCreateClick=async ()=>{
           </div>
            
          </div>
-         <Button className='mt-9 w-full'
+         <Button className='md:mt-9 w-full'
           disabled={!eventName || !locationType || !locationUrl}
           onClick={()=>onCreateClick()}
           >Create</Button>

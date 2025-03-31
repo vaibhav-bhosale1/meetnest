@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { app } from '@/config/Firebaseconfig'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
-import { getFirestore ,collection, query, where, getDocs,deleteDoc,doc} from 'firebase/firestore'
+import { getFirestore ,collection, query, where, getDocs,deleteDoc,doc, getDoc} from 'firebase/firestore'
 import { Clock, Copy, Delete, LoaderCircle, MapPin, PencilIcon, Settings, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -22,11 +22,18 @@ const MeetingEventList = () => {
     const db=getFirestore(app)
     const {user}=useKindeBrowserClient();
     const [eventList,setEventList]=useState([]);
+    const [businessInfo,setBusinessInfo]=useState()
 
   useEffect(()=>{
     user&&getEventList();
+    user&&BusinessInfo()
 
   },[user])
+  const BusinessInfo= async()=>{
+    const docRef=doc(db,'Business',user.email);
+    const docSnap=await getDoc(docRef);
+    setBusinessInfo(docSnap.data())
+  }
   
     const getEventList= async()=>{
         setEventList([])
@@ -47,6 +54,13 @@ const MeetingEventList = () => {
             console.log("Deleted Successfully")
             getEventList();
         })
+     }
+
+
+     const onCopyClipHandler=(event)=>{
+      const meetingEventUrl=process.env.NEXT_PUBLIC_BASE_URL+businessInfo.businessName+'/'+event.id
+      navigator.clipboard.writeText(meetingEventUrl)
+      toast.success("Copied to Clipboard")
      }
   return (
     <div className='mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-5'>
@@ -85,8 +99,8 @@ const MeetingEventList = () => {
              
                 <h2 className="flex gap-2 text-sm items-center text-blue-500 hover:underline cursor-pointer"
                 onClick={()=>{
-                    navigator.clipboard.writeText(event.locationUrl)
-                    toast.success("Copied to Clipboard")
+                    onCopyClipHandler(event);
+                 
                 }}
                 >
                   <Copy className="h-4 w-4" /> Copy Url
