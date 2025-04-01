@@ -84,6 +84,8 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
             businessEmail:businessInfo?.email,
             SelectedTime:SelectedTime,
             selectedDate:date,
+            formattedDate:format(date,'PPP'),
+            formattedTimeStamp:format(date,'t'),
             duration:eventInfo?.duration,
             locationUrl:eventInfo?.locationUrl,
             eventId:eventInfo?.id,

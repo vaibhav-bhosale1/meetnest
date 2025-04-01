@@ -1,8 +1,64 @@
-import React from 'react'
+"use client"
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import ScheduleMeetingList from './_component/ScheduleMeetingList'
+
+import { app } from '@/config/Firebaseconfig'
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import { format } from 'date-fns'
+import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore'
+import React, { useEffect, useState } from 'react'
 
 const ScheduleMeeting = () => {
+  const db=getFirestore(app)
+    const {user}=useKindeBrowserClient()
+    const [meetingList,setMeetingList]=useState([]);
+    useEffect(()=>{
+        user&&getScheduleMeeting()
+    },[user])
+
+    const getScheduleMeeting=async()=>{
+      setMeetingList([])
+        const q=query(collection(db,'ScheduleMeetings'),
+        where('businessEmail','==',user.email)
+    )
+    const querySnapshot=await getDocs(q)
+    querySnapshot.forEach(doc=>{
+        setMeetingList(prev=>[...prev,doc.data()])
+        console.log(doc.data());
+    })
+    }
+
+    const filterMeeetingList=(type)=>{
+            if(type=='upcoming'){
+                return meetingList.filter(item=>item.formattedDate>=format(new Date(),'t'))
+            }else{
+              return meetingList.filter(item=>item.formattedDate<format(new Date(),'t'))
+            }
+    }
   return (
-    <div>ScheduleMeeting</div>
+    <div className='p-10'>
+      <h2 className='font-bold text-2xl'>Schedule Meeting</h2>
+      <hr />
+      <Tabs defaultValue="upcoming" className="w-[400px]">
+        <TabsList>
+          <TabsTrigger value="upcoming">Upcoming </TabsTrigger>
+          <TabsTrigger value="expired">Expired</TabsTrigger>
+        </TabsList>
+        <TabsContent value="upcoming">
+            <ScheduleMeetingList
+            meetingList={filterMeeetingList('upcoming')}
+            />
+        </TabsContent>
+        <TabsContent value="expired">
+        <ScheduleMeetingList
+            meetingList={filterMeeetingList('expired')}
+            />
+        </TabsContent>
+      </Tabs>
+
+
+    </div>
   )
 }
 
