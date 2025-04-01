@@ -10,7 +10,11 @@ import UserFormInfo from './UserFormInfo'
 import { collection, doc, getDocs, getFirestore, query, setDoc, where } from 'firebase/firestore'
 import { app } from '@/config/Firebaseconfig'
 import { toast } from 'sonner'
+import Plunk from "@plunk/node";
+import { render } from "@react-email/components";
 
+import MeetingScheduleEmail from '@/emails'
+import { useRouter } from 'next/navigation'
 
 
 const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
@@ -23,9 +27,10 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
     const [userEmail,setUserEmail]=useState();   
      const [userName,setUserName]=useState();
      const [prevBooking,setPrevBooking]=useState([]);
-
+     const plunk = new Plunk(process.env.NEXT_PUBLIC_PLUNK_API_KEY);
      const db=getFirestore(app)
 
+     const router=useRouter();
     useEffect(()=>{
         eventInfo?.duration&&createTimeSlot(eventInfo?.duration)
     },[eventInfo])
@@ -90,7 +95,8 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
          }).then(resp=>{
             console.log("Meeting Schedule Successfully")
             toast.success("Meeting Schedule Successfully")
-
+            senEmail(userName)
+            router.replace('/confirmation')
          })
     }
 
@@ -102,6 +108,26 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
             console.log("--",doc.data())
             setPrevBooking(prev=>[...prev,doc.data()]);
         })
+    }
+
+
+    const senEmail=async(user)=>{
+        const emailHtml = await render(<MeetingScheduleEmail
+        businessName={businessInfo?.businessName}
+        date={format(date,'PPP').toString()}
+        duration={eventInfo?.duration}
+        meetingTime={SelectedTime}
+        meetingUrl={eventInfo?.locationUrl}
+        userFirstName={user}
+        />);
+
+            plunk.emails.send({
+            to:userEmail,
+            subject: "New Meeting Schedule Details",
+            body: emailHtml,
+            }).then(resp=>{
+                console.log(resp,"email sent")
+            })
     }
   return (
     <div className='p-2 py-10 shadow-md m-5 border-t-8 my-10
