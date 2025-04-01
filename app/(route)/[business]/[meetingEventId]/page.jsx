@@ -10,6 +10,7 @@ const SharedMeetingEvent = () => {
     const [businessInfo,setBusinessInfo]=useState();
     const [eventInfo,setEventInfo]=useState();
     const [loading,setLoading]=useState(false);
+
     const db = getFirestore(app);
 
     useEffect(() => {

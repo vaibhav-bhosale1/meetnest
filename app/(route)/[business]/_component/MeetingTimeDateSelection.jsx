@@ -1,11 +1,16 @@
 
 import { Calendar1, Clock, Clock10, LocateIcon, MapPin } from 'lucide-react'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { Calendar } from "@/components/ui/calendar"
 import { format, interval, min } from 'date-fns'
 import { Button } from '@/components/ui/button'
 import TimeDateSelection from './TimeDateSelection'
+import UserFormInfo from './UserFormInfo'
+import { collection, doc, getDocs, getFirestore, query, setDoc, where } from 'firebase/firestore'
+import { app } from '@/config/Firebaseconfig'
+import { toast } from 'sonner'
+
 
 
 const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
@@ -13,6 +18,14 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
     const [enableTimeSlots,setenableTimeSlots]=useState(false);
     const [timeSlots,setTimeSlots]=useState()
     const [SelectedTime,setSelectedTime]=useState()
+    const [step,setStep]=useState(1)
+     const [userNotes,setUserNotes]=useState('')
+    const [userEmail,setUserEmail]=useState();   
+     const [userName,setUserName]=useState();
+     const [prevBooking,setPrevBooking]=useState([]);
+
+     const db=getFirestore(app)
+
     useEffect(()=>{
         eventInfo?.duration&&createTimeSlot(eventInfo?.duration)
     },[eventInfo])
@@ -32,27 +45,73 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
         setTimeSlots(slots)
     }
 
-    const handleDateChange=(date)=>{
+    /**
+     * used to fetch prev booking time slots
+     * @param {*} date 
+     */
+    const handleDateChange = (date) => {
         setDate(date);
-        const day=format(date,'EEEE')
-        if(businessInfo?.daysAvailable?.[day]){
-            setenableTimeSlots(true)
-        }else{
-            setenableTimeSlots(false)
-        }
-
-    }
+        const day = format(date, 'EEEE');
     
+        if (businessInfo && businessInfo.daysAvailable && businessInfo.daysAvailable[day]) {
+           getPrevEventBooking(date)
+            setenableTimeSlots(true);
+        } else {
+           
+            setenableTimeSlots(false);
+        }
+    };
+    
+    
+    const handleScheduleEvent=async()=>{
+        console.log("hey")
+         const regx= /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+        if(!regx.test(userEmail)){
+            toast.error("Enter valid E-mail")
+            console.log("enter Valid email")
+                return;
+         }
+         const docId=Date.now().toString();
+         console.log("SelectedTime:", businessInfo?.SelectedTime);
+
+         await setDoc(doc(db,'ScheduleMeetings',docId),{
+            businessName:businessInfo?.businessName,
+            businessEmail:businessInfo?.email,
+            SelectedTime:SelectedTime,
+            selectedDate:date,
+            duration:eventInfo?.duration,
+            locationUrl:eventInfo?.locationUrl,
+            eventId:eventInfo?.id,
+            id:docId,
+            userName:userName,
+            userEmail:userEmail,
+            userNotes:userNotes,
+
+         }).then(resp=>{
+            console.log("Meeting Schedule Successfully")
+            toast.success("Meeting Schedule Successfully")
+
+         })
+    }
+
+    const getPrevEventBooking=async(date_)=>{
+        const  q=query(collection(db,'ScheduleMeetings'),where('selectedDate','==',date_),
+                where('eventId','==',eventInfo.id))
+        const querySnapshot=await getDocs(q);
+        querySnapshot.forEach((doc)=>{
+            console.log("--",doc.data())
+            setPrevBooking(prev=>[...prev,doc.data()]);
+        })
+    }
   return (
     <div className='p-2 py-10 shadow-md m-5 border-t-8 my-10
-    mx-10 md:mx-26  lg:mx-56
-    '
+    mx-10 md:mx-26  lg:mx-56'
     style={{borderTopColor:eventInfo?.themeColor}}
     >
         <div>
             image
         </div>
-        <div className='grid grid-cols-1 md:grid-cols-3 mt-5'>
+        <div className='grid grid-cols-1 md:grid-cols-2  mt-5'>
             
             <div className='p-3 border-r'>
                 <h2>{businessInfo?.businessName}</h2>
@@ -68,15 +127,50 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
                 </div>
 
             </div>
-            <TimeDateSelection 
-            date={date}
-            handleDateChange={handleDateChange}
-            timeSlots={timeSlots}
-            setSelectedTime={setSelectedTime}
-            enableTimeSlots={enableTimeSlots}
-            />
+            <div>
+                {step==1?<TimeDateSelection 
+                date={date}
+                prevBooking={prevBooking}
+                handleDateChange={handleDateChange}
+                timeSlots={timeSlots}
+                setSelectedTime={setSelectedTime}
+                enableTimeSlots={enableTimeSlots}
+                SelectedTime={SelectedTime}
+                />
+                :
+                <UserFormInfo setUserEmail={setUserEmail} setUserName={setUserName} setUserNotes={setUserNotes}/>
+                
+                }
+
+            </div>
+           
 
         </div>
+        <div className='flex gap-3 justify-end'>
+            {step==2&&
+            <Button variant='outline'
+            onClick={()=>setStep(1)}
+            >
+                Back
+            </Button>
+            }
+            {step==1?
+                <Button className='float-right'
+                disabled={!SelectedTime || !date}
+                onClick={()=>setStep(step+1)}
+                >Next
+                </Button>
+                :
+                <Button
+                onClick={()=>handleScheduleEvent()}
+                disabled={!userEmail || !userName}
+                >
+                Schedule
+                </Button>
+            }
+
+        </div>
+      
     </div>
   )
 }
