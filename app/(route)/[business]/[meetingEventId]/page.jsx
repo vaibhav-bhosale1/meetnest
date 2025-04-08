@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import MeetingTimeDateSelection from '../_component/MeetingTimeDateSelection'
 import { collection, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore'
-import { app } from '@/config/Firebaseconfig'
+import { app } from '../../../../config/Firebaseconfig'
 import { useParams } from 'next/navigation';
 
 const SharedMeetingEvent = () => {

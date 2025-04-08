@@ -1,6 +1,6 @@
 import React from 'react'
-import { Calendar } from '@/components/ui/calendar'
-import { Button } from '@/components/ui/button'
+import { Calendar } from '../../../../components/ui/calendar'
+import { Button } from '../../../../components/ui/button'
 
 const TimeDateSelection = ({date,handleDateChange,timeSlots,setSelectedTime,enableTimeSlots,SelectedTime,prevBooking}) => {
     const checkTimeSlot=(time)=>{

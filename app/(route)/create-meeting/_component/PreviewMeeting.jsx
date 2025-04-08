@@ -1,9 +1,9 @@
 import { Clock, LocateIcon, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { Calendar } from "@/components/ui/calendar"
+import { Calendar } from "../../../../components/ui/calendar"
 import { interval, min } from 'date-fns'
-import { Button } from '@/components/ui/button'
+import { Button } from '../../../../components/ui/button'
 
 
 const PreviewMeeting = ({formValue}) => {

@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { app } from '@/config/Firebaseconfig'
+import { app } from '../../../../../config/Firebaseconfig.js'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { getFirestore, collection, query, where, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore'
 import { 
@@ -16,7 +16,7 @@ import {
   Trash2 
 } from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import { Button } from '../../../../../components/ui/button'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 import {

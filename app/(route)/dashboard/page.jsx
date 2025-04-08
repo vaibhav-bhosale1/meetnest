@@ -2,7 +2,7 @@
 import { LogoutLink, useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { getFirestore, collection, getDoc,doc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
-import {app} from '@/config/Firebaseconfig.js'
+import {app} from '../../../config/Firebaseconfig.js'
 import { useRouter } from 'next/navigation';
 import { Loader } from 'lucide-react';
 import MeetingType from './meeting-type/page';

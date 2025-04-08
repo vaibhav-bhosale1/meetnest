@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "../components/ui/sonner"
 import NextTopLoader from 'nextjs-toploader';
  
 import "./globals.css";

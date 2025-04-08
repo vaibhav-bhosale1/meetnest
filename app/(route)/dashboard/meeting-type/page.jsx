@@ -1,5 +1,5 @@
 "use client"
-import { Input } from '@/components/ui/input'
+import { Input } from '../../../../components/ui/input'
 import React from 'react'
 import MeetingEventList from './_components/MeetingEventList'
 import { motion } from 'framer-motion'

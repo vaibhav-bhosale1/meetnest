@@ -2,7 +2,7 @@ import React from 'react'
 import SideNavbar from './_components/SideNavbar'
 import DashboardHeader from './_components/DashboardHeader'
 import NextTopLoader from 'nextjs-toploader';
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "../../../components/ui/sonner"
 
 const Dashboardlayout = ({children}) => {
   return (

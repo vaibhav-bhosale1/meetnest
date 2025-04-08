@@ -2,18 +2,18 @@
 import { Calendar1, Clock, Clock10, LocateIcon, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import React, { use, useEffect, useState } from 'react'
-import { Calendar } from "@/components/ui/calendar"
+
 import { format, interval, min } from 'date-fns'
-import { Button } from '@/components/ui/button'
+import { Button } from '../../../../components/ui/button'
 import TimeDateSelection from './TimeDateSelection'
 import UserFormInfo from './UserFormInfo'
 import { collection, doc, getDocs, getFirestore, query, setDoc, where } from 'firebase/firestore'
-import { app } from '@/config/Firebaseconfig'
+import { app } from '../../../../config/Firebaseconfig.js'
 import { toast } from 'sonner'
 import Plunk from "@plunk/node";
 import { render } from "@react-email/components";
 
-import MeetingScheduleEmail from '@/emails'
+import MeetingScheduleEmail from '../../../../emails/index'
 import { useRouter } from 'next/navigation'
 
 

@@ -1,6 +1,6 @@
 "use client"
 import { Briefcase, Calendar, Clock, Ghost, Plus, Settings } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '../../../../components/ui/button'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'

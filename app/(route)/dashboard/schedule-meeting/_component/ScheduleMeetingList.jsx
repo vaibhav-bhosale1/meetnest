@@ -8,10 +8,10 @@ import {
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-  } from "@/components/ui/accordion"
+  } from "../../../../../components/ui/accordion"
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
+import { Button } from '../../../../../components/ui/button'
+import { Calendar } from '../../../../../components/ui/calendar'
 
 
   

@@ -1,6 +1,6 @@
 "use client"
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Button } from '../../../../components/ui/button'
+import { Input } from '../../../../components/ui/input'
 import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -11,12 +11,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import LocationOption from '@/app/_utils/LocationOption'
+} from "../../../../components/ui/dropdown-menu"
+import LocationOption from '../../../_utils/LocationOption'
 import Image from 'next/image'
-import ThemeOption from '@/app/_utils/ThemeOption'
+import ThemeOption from '../../../_utils/ThemeOption'
 import { doc, getFirestore, setDoc } from 'firebase/firestore'
-import { app } from '@/config/Firebaseconfig'
+import { app } from '../../../../config/Firebaseconfig.js'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'

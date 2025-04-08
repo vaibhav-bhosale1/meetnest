@@ -1,11 +1,11 @@
 "use client"
 import DaysList from '@/app/_utils/DaysList'
 import React, { useEffect, useState } from 'react'
-import { Checkbox } from "@/components/ui/checkbox"
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import { Checkbox } from "../../../../components/ui/checkbox"
+import { Input } from '../../../../components/ui/input'
+import { Button } from '../../../../components/ui/button'
 import { collection, doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore'
-import { app } from '@/config/Firebaseconfig'
+import { app } from '../../../../config/Firebaseconfig.js'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { toast } from 'sonner'
 

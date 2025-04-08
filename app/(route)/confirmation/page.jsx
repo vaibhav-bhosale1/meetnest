@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { collection, getDocs, getFirestore, query, orderBy, limit } from "firebase/firestore";
-import { app } from "@/config/Firebaseconfig";
-import { Button } from "@/components/ui/button";
+import { app } from "../../../config/Firebaseconfig.js";
+import { Button } from "../../../components/ui/button";
 import Link from "next/link";
 
 export default function MeetingConfirmation() {

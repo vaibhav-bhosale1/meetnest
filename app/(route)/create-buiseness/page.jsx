@@ -1,9 +1,9 @@
 "use client"
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Button } from '../../../components/ui/button'
+import { Input } from '../../../components/ui/input'
 import React, { useState } from 'react'
 import { doc, getFirestore, setDoc } from "firebase/firestore";
-import {app} from '@/config/Firebaseconfig.js'
+import {app} from '../../../config/Firebaseconfig.js'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 import { toast } from "sonner"
 import { useRouter } from 'next/navigation';

@@ -1,9 +1,9 @@
 "use client"
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../components/ui/tabs"
 import ScheduleMeetingList from './_component/ScheduleMeetingList'
 
-import { app } from '@/config/Firebaseconfig'
+import { app } from '../../../../config/Firebaseconfig.js'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { format } from 'date-fns'
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore'
