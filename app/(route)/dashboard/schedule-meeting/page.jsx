@@ -38,27 +38,35 @@ const ScheduleMeeting = () => {
     }
   return (
     <div className='p-10'>
-      <h2 className='font-bold text-2xl'>Schedule Meeting</h2>
-      <hr />
-      <Tabs defaultValue="upcoming" className="w-[400px]">
-        <TabsList>
-          <TabsTrigger value="upcoming">Upcoming </TabsTrigger>
-          <TabsTrigger value="expired">Expired</TabsTrigger>
-        </TabsList>
-        <TabsContent value="upcoming">
-            <ScheduleMeetingList
-            meetingList={filterMeeetingList('upcoming')}
-            />
-        </TabsContent>
-        <TabsContent value="expired">
+    <h2 className='font-bold text-2xl text-orange-600'>Schedule Meeting</h2>
+    <hr className='my-4 border-orange-200' />
+    <Tabs defaultValue="upcoming" className="w-[400px]">
+      <TabsList className="bg-orange-100">
+        <TabsTrigger 
+          value="upcoming"
+          className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+        >
+          Upcoming
+        </TabsTrigger>
+        <TabsTrigger 
+          value="expired"
+          className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+        >
+          Expired
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="upcoming" className="mt-4">
         <ScheduleMeetingList
-            meetingList={filterMeeetingList('expired')}
-            />
-        </TabsContent>
-      </Tabs>
-
-
-    </div>
+          meetingList={filterMeeetingList('upcoming')}
+        />
+      </TabsContent>
+      <TabsContent value="expired" className="mt-4">
+        <ScheduleMeetingList
+          meetingList={filterMeeetingList('expired')}
+        />
+      </TabsContent>
+    </Tabs>
+  </div>
   )
 }
 

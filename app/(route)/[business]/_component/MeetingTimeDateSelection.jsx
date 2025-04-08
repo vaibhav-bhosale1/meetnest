@@ -132,74 +132,76 @@ const MeetingTimeDateSelection = ({eventInfo,businessInfo}) => {
             })
     }
   return (
-    <div className='p-2 py-10 shadow-md m-5 border-t-8 my-10
-    mx-10 md:mx-26  lg:mx-56'
-    style={{borderTopColor:eventInfo?.themeColor}}
-    >
-        <div>
-            image
-        </div>
-        <div className='grid grid-cols-1 md:grid-cols-2  mt-5'>
-            
-            <div className='p-3 border-r'>
-                <h2>{businessInfo?.businessName}</h2>
-                <h2
-                className='font-bold text-2xl'
-                >{eventInfo?.eventName?eventInfo.eventName:"meeting Name"}</h2>
-                <div className='flex flex-col gap-4 mt-5'>
-                    <h2 className='flex gap-2'><Clock/>{eventInfo?.duration} Minute</h2>
-                    <h2 className='flex gap-2'><MapPin/>{eventInfo?.locationType} Meeting</h2>
-                    <h2 className='flex gap-2'><Calendar1/>{format(date,'PPP')}</h2>
-                   {SelectedTime&& <h2 className='flex gap-2'><Clock10/>{SelectedTime}</h2>}
-                    <Link className='flex gap-2 text-blue-400' href={eventInfo?.locationUrl?eventInfo?.locationUrl:"#"}>{eventInfo?.locationUrl} Meeting</Link>
-                </div>
-
+    <div className='p-2 py-10 shadow-md m-5 border-t-8 my-10 mx-10 md:mx-26 lg:mx-56'
+    style={{borderTopColor: eventInfo?.themeColor || '#FF8C3B'}}
+>
+    <div>
+        image
+    </div>
+    <div className='grid grid-cols-1 md:grid-cols-2 mt-5'>
+        <div className='p-3 border-r'>
+            <h2 className='text-orange-500'>{businessInfo?.businessName}</h2>
+            <h2 className='font-bold text-2xl text-gray-800'>
+                {eventInfo?.eventName ? eventInfo.eventName : "meeting Name"}
+            </h2>
+            <div className='flex flex-col gap-4 mt-5'>
+                <h2 className='flex gap-2'><Clock className='text-orange-500'/>{eventInfo?.duration} Minute</h2>
+                <h2 className='flex gap-2'><MapPin className='text-orange-500'/>{eventInfo?.locationType} Meeting</h2>
+                <h2 className='flex gap-2'><Calendar1 className='text-orange-500'/>{format(date,'PPP')}</h2>
+                {SelectedTime && <h2 className='flex gap-2'><Clock10 className='text-orange-500'/>{SelectedTime}</h2>}
+                <Link className='flex gap-2 text-orange-500' href={eventInfo?.locationUrl ? eventInfo?.locationUrl : "#"}>
+                    {eventInfo?.locationUrl} Meeting
+                </Link>
             </div>
-            <div>
-                {step==1?<TimeDateSelection 
-                date={date}
-                prevBooking={prevBooking}
-                handleDateChange={handleDateChange}
-                timeSlots={timeSlots}
-                setSelectedTime={setSelectedTime}
-                enableTimeSlots={enableTimeSlots}
-                SelectedTime={SelectedTime}
+        </div>
+        <div>
+            {step == 1 ?
+                <TimeDateSelection 
+                    date={date}
+                    prevBooking={prevBooking}
+                    handleDateChange={handleDateChange}
+                    timeSlots={timeSlots}
+                    setSelectedTime={setSelectedTime}
+                    enableTimeSlots={enableTimeSlots}
+                    SelectedTime={SelectedTime}
                 />
                 :
-                <UserFormInfo setUserEmail={setUserEmail} setUserName={setUserName} setUserNotes={setUserNotes}/>
-                
-                }
-
-            </div>
-           
-
+                <UserFormInfo 
+                    setUserEmail={setUserEmail} 
+                    setUserName={setUserName} 
+                    setUserNotes={setUserNotes}
+                />
+            }
         </div>
-        <div className='flex gap-3 justify-end'>
-            {step==2&&
+    </div>
+    <div className='flex gap-3 justify-end'>
+        {step == 2 &&
             <Button variant='outline'
-            onClick={()=>setStep(1)}
+                className='border-orange-300 text-orange-500 hover:bg-orange-50'
+                onClick={() => setStep(1)}
             >
                 Back
             </Button>
-            }
-            {step==1?
-                <Button className='float-right'
+        }
+        {step == 1 ?
+            <Button 
+                className='float-right bg-orange-500 hover:bg-orange-600 text-white'
                 disabled={!SelectedTime || !date}
-                onClick={()=>setStep(step+1)}
-                >Next
-                </Button>
-                :
-                <Button
-                onClick={()=>handleScheduleEvent()}
+                onClick={() => setStep(step+1)}
+            >
+                Next
+            </Button>
+            :
+            <Button
+                className='bg-orange-500 hover:bg-orange-600 text-white'
+                onClick={() => handleScheduleEvent()}
                 disabled={!userEmail || !userName}
-                >
+            >
                 Schedule
-                </Button>
-            }
-
-        </div>
-      
+            </Button>
+        }
     </div>
+</div>
   )
 }
 
