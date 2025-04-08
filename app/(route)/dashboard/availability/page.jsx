@@ -1,5 +1,5 @@
 "use client"
-import DaysList from '@/app/_utils/DaysList'
+import DaysList from '../../../_utils/DaysList'
 import React, { useEffect, useState } from 'react'
 import { Checkbox } from "../../../../components/ui/checkbox"
 import { Input } from '../../../../components/ui/input'
