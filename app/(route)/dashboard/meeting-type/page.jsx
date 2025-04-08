@@ -5,7 +5,7 @@ import MeetingEventList from './_components/MeetingEventList'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
-const MeetingType = ({businessInfo,event}) => {
+const MeetingType = () => {
   return (
    
     
